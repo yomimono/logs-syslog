@@ -7,6 +7,7 @@
 <link rel="previous" href="Logs_syslog_lwt.html">
 <link rel="next" href="Logs_syslog_mirage.html">
 <link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
 <link title="Index of values" rel=Appendix href="index_values.html">
 <link title="Index of modules" rel=Appendix href="index_modules.html">
 <link title="Logs_syslog" rel="Chapter" href="Logs_syslog.html">
@@ -31,18 +32,18 @@ Logs reporter via syslog using Lwt and TLS
 </div>
 <hr width="100%">
 
-<pre><span id="VALtcp_tls_reporter"><span class="keyword">val</span> tcp_tls_reporter</span> : <code class="type">?hostname:string -><br>       Lwt_unix.inet_addr -><br>       ?port:int -><br>       cacert:string -><br>       cert:string -><br>       priv_key:string -> unit -> (Logs.reporter, string) Result.result Lwt.t</code></pre><div class="info ">
-<code class="code">tcp_tls_reporter ~hostname remote_ip ~port ~cacert ~cert ~priv_key ()</code> is
-    <code class="code"><span class="constructor">Ok</span> reporter</code> or <code class="code"><span class="constructor">Error</span> msg</code>.  The <code class="code">reporter</code> sends each log message to
-    <code class="code">remote_ip, port</code> via TLS.  If the initial TLS connection to the <code class="code">remote_ip</code>
-    fails, an <code class="code"><span class="constructor">Error</span> msg</code> is returned instead.  If the TLS connection fails, the
-    log message is reported to standard error, and an attempt is made to
-    re-establish the TLS connection.  Each message is prepended by its length,
-    encoded as decimal integer, as specified in
+<pre><span id="VALtcp_tls_reporter"><span class="keyword">val</span> tcp_tls_reporter</span> : <code class="type">?hostname:string -><br>       Lwt_unix.inet_addr -><br>       ?port:int -><br>       cacert:string -><br>       cert:string -><br>       priv_key:string -><br>       ?framing:<a href="Logs_syslog.html#TYPEframing">Logs_syslog.framing</a> -><br>       unit -> (Logs.reporter, string) Result.result Lwt.t</code></pre><div class="info ">
+<code class="code">tcp_tls_reporter ~hostname remote_ip ~port ~cacert ~cert ~priv_key ~framing
+    ()</code> is <code class="code"><span class="constructor">Ok</span> reporter</code> or <code class="code"><span class="constructor">Error</span> msg</code>.  The <code class="code">reporter</code> sends each log message
+    to <code class="code">remote_ip, port</code> via TLS.  If the initial TLS connection to the
+    <code class="code">remote_ip</code> fails, an <code class="code"><span class="constructor">Error</span> msg</code> is returned instead.  If the TLS
+    connection fails, the log message is reported to standard error, and an
+    attempt is made to re-establish the TLS connection.  Each message is
+    prepended by its length, encoded as decimal integer, as specified in
     <a href="https://tools.ietf.org/html/rfc5125">RFC 5125</a>.  The <code class="code">remote_ip</code> must have
     an X.509 certificate rooted in the given <code class="code">cacert</code> (see
     <a href="https://tools.ietf.org/html/rfc5280">RFC 5280</a>).  The default value for
     <code class="code">hostname</code> is <code class="code"><span class="constructor">Lwt_unix</span>.gethostname ()</code>, the default value for <code class="code">port</code> is
-    6514.<br>
+    6514, <code class="code">framing</code> defaults to prepending the length in decimal.<br>
 </div>
 </body></html>

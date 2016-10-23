@@ -5,6 +5,7 @@
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
 <link rel="Start" href="index.html">
 <link rel="Up" href="Logs_syslog_mirage_tls.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
 <link title="Index of values" rel=Appendix href="index_values.html">
 <link title="Index of modules" rel=Appendix href="index_modules.html">
 <link title="Logs_syslog" rel="Chapter" href="Logs_syslog.html">
@@ -48,12 +49,12 @@ TLS reporter<br>
 </table>
 <hr width="100%">
 
-<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">C.t -><br>       TCP.t -><br>       KV.t -><br>       hostname:string -><br>       TCP.ipaddr -><br>       ?port:int -> unit -> (Logs.reporter, string) Pervasives.result TCP.io</code></pre><div class="info ">
-<code class="code">create clock tcp kv ~hostname ip ~port ()</code> is <code class="code"><span class="constructor">Ok</span> reporter</code> or <code class="code"><span class="constructor">Error</span>
+<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">C.t -><br>       TCP.t -><br>       KV.t -><br>       hostname:string -><br>       TCP.ipaddr -><br>       ?port:int -><br>       ?framing:<a href="Logs_syslog.html#TYPEframing">Logs_syslog.framing</a> -><br>       unit -> (Logs.reporter, string) Result.result TCP.io</code></pre><div class="info ">
+<code class="code">create clock tcp kv ~hostname ip ~port ~framing ()</code> is <code class="code"><span class="constructor">Ok</span> reporter</code> or <code class="code"><span class="constructor">Error</span>
       msg</code>.  The <code class="code">reporter</code> sends log messages to <code class="code">ip, port</code> via TLS.  If the
       initial TLS connection to the <code class="code">remote_ip</code> fails, an <code class="code"><span class="constructor">Error</span> msg</code> is
       returned instead.  If the TLS connection fails, attempts are made to
       re-establish the TLS connection.  The <code class="code">hostname</code> is part of each syslog
-      message.  The <code class="code">port</code> defaults to 6514.<br>
+      message.  The <code class="code">port</code> defaults to 6514, <code class="code">framing</code> to prepend the length in decimal.<br>
 </div>
 </body></html>

@@ -6,6 +6,7 @@
 <link rel="Start" href="index.html">
 <link rel="next" href="Logs_syslog_unix.html">
 <link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
 <link title="Index of values" rel=Appendix href="index_values.html">
 <link title="Index of modules" rel=Appendix href="index_modules.html">
 <link title="Logs_syslog" rel="Chapter" href="Logs_syslog.html">
@@ -38,10 +39,10 @@ Logs reporter using syslog
     <ul>
 <li><a href="https://tools.ietf.org/html/rfc3164">RFC 3164</a> specifies the original
        BSD syslog protocol over UDP on port 514 (also
-       <a href="https://tools.ietf.org/html/rfc5126">RFC 5126</a>).</li>
+       <a href="https://tools.ietf.org/html/rfc5426">RFC 5426</a>).</li>
 <li><a href="https://tools.ietf.org/html/rfc6587">RFC 6587</a> specifies the historic
        syslog over TCP on port 514.</li>
-<li><a href="https://tools.ietf.org/html/rfc5125">RFC 5125</a> specifies syslog over
+<li><a href="https://tools.ietf.org/html/rfc5425">RFC 5425</a> specifies syslog over
        TLS on TCP port 6514.</li>
 </ul>
 
@@ -57,6 +58,20 @@ Logs reporter using syslog
     <code class="code"><span class="constructor">Logs</span>.reporter</code> on success, otherwise the <code class="code"><span class="constructor">Error</span> msg</code> is returned.  At
     runtime when the connection failed, the message is printed on standard
     error, and a re-establishment of the connection is attempted.
+<p>
+
+    Syslog messages need to be framed when transported over TCP and TLS streams.
+    In the historical <a href="https://tools.ietf.org/html/rfc6587">RFC 6587</a> this is
+    defined to be either non-transparent (which lets you stream the message), by
+    terminating each syslog message with a line feed (0x0A), a null byte (0x00),
+    a CR-LF sequence, or any custom byte sequence.  The alternative is octet
+    counting, also defined in <a href="https://tools.ietf.org/html/rfc5425">RFC 5425</a>,
+    which prepends the message with the message length, ASCII-encoded as decimal
+    number, followed by a whitespace (0x20).  We support all three popular
+    methods, and also a <code class="code"><span class="keywordsign">`</span><span class="constructor">Custom</span></code> one appending any byte sequence at the end of
+    each message.  There are defaults (TCP: null byte, TLS: octet counting)
+    passed to the individual reporter constructors (see the <a href="Logs_syslog.html#TYPEframing"><code class="code"><span class="constructor">Logs_syslog</span>.framing</code></a> type
+    below).
 <p>
 
     Every time a library logs a message which reaches the reporter (depending on
@@ -77,7 +92,7 @@ Logs reporter using syslog
     an alternative transport of syslog messages over TCP.
 <p>
 
-    <em>0484ad7 - <a href="https://github.com/hannesm/logs-syslog ">homepage</a></em><br>
+    <em>14a22d1 - <a href="https://github.com/hannesm/logs-syslog ">homepage</a></em><br>
 </div>
 <hr width="100%">
 
@@ -85,6 +100,18 @@ Logs reporter using syslog
 <code class="code">message ~facility ~host ~source level now msg</code> is <code class="code">message</code>, a syslog
     message with the given values.  The default <code class="code">facility</code> is
     <code class="code"><span class="constructor">Syslog_message</span>.<span class="constructor">System_Daemons</span></code>.<br>
+</div>
+
+<pre><span id="TYPEframing"><span class="keyword">type</span> <code class="type"></code>framing</span> = <code class="type">[ `Count | `Custom of string | `LineFeed | `Null ]</code> </pre>
+<div class="info ">
+Different framing methods used in the wild, as described in
+    <a href="https://tools.ietf.org/html/rfc6587">RFC 6587</a><br>
+</div>
+
+
+<pre><span id="VALframe_message"><span class="keyword">val</span> frame_message</span> : <code class="type">string -> <a href="Logs_syslog.html#TYPEframing">framing</a> -> string</code></pre><div class="info ">
+<code class="code">frame_msg msg framing</code> is <code class="code">framed_message</code>, where the <code class="code">framing</code> is
+    applied.<br>
 </div>
 
 <pre><span id="VALppf"><span class="keyword">val</span> ppf</span> : <code class="type">Format.formatter</code></pre><div class="info ">

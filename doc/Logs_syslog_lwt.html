@@ -7,6 +7,7 @@
 <link rel="previous" href="Logs_syslog_unix.html">
 <link rel="next" href="Logs_syslog_lwt_tls.html">
 <link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
 <link title="Index of values" rel=Appendix href="index_values.html">
 <link title="Index of modules" rel=Appendix href="index_modules.html">
 <link title="Logs_syslog" rel="Chapter" href="Logs_syslog.html">
@@ -37,13 +38,13 @@ Logs reporter via syslog, using Lwt
     UDP.  The <code class="code">hostname</code> default to <code class="code"><span class="constructor">Lwt_unix</span>.gethostname ()</code>, <code class="code">port</code> to 514.<br>
 </div>
 
-<pre><span id="VALtcp_reporter"><span class="keyword">val</span> tcp_reporter</span> : <code class="type">?hostname:string -><br>       Lwt_unix.inet_addr -><br>       ?port:int -> unit -> (Logs.reporter, string) Result.result Lwt.t</code></pre><div class="info ">
+<pre><span id="VALtcp_reporter"><span class="keyword">val</span> tcp_reporter</span> : <code class="type">?hostname:string -><br>       Lwt_unix.inet_addr -><br>       ?port:int -><br>       ?framing:<a href="Logs_syslog.html#TYPEframing">Logs_syslog.framing</a> -><br>       unit -> (Logs.reporter, string) Result.result Lwt.t</code></pre><div class="info ">
 <code class="code">tcp_reporter ~hostname remote_ip ~port ()</code> is <code class="code"><span class="constructor">Ok</span> reporter</code> or <code class="code"><span class="constructor">Error</span> msg</code>.
     The <code class="code">reporter</code> sends each log message to <code class="code">remote_ip, port</code> via TCP.  If the
     initial TCP connection to the <code class="code">remote_ip</code> fails, an <code class="code"><span class="constructor">Error</span> msg</code> is returned
     instead.  If the TCP connection fails, the log message is reported to
     standard error, and attempts are made to re-establish the TCP connection.
     Each syslog message is terminated with a 0 byte.  The <code class="code">hostname</code> default to
-    <code class="code"><span class="constructor">Lwt_unix</span>.gethostname ()</code>, <code class="code">port</code> to 514.<br>
+    <code class="code"><span class="constructor">Lwt_unix</span>.gethostname ()</code>, <code class="code">port</code> to 514, <code class="code">framing</code> to append a 0 byte.<br>
 </div>
 </body></html>
