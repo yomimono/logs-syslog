@@ -22,7 +22,7 @@
 </div>
 <h1>Functor <a href="type_Logs_syslog_mirage.Udp.html">Logs_syslog_mirage.Udp</a></h1>
 
-<pre><span class="keyword">module</span> Udp: <div class="sig_block"><code class="code"><span class="keyword">functor</span> (</code><code class="code"><span class="constructor">C</span></code><code class="code"> : </code><code class="type">V1.PCLOCK</code><code class="code">) <span class="keywordsign">-&gt;</span> </code><div class="sig_block"><code class="code"><span class="keyword">functor</span> (</code><code class="code"><span class="constructor">UDP</span></code><code class="code"> : </code><code class="type">V1_LWT.UDP</code><code class="code">) <span class="keywordsign">-&gt;</span> </code><code class="code"><span class="keyword">sig</span></code> <a href="Logs_syslog_mirage.Udp.html">..</a> <code class="code"><span class="keyword">end</span></code></div></div></pre><div class="info module top">
+<pre><span class="keyword">module</span> Udp: <div class="sig_block"><code class="code"><span class="keyword">functor</span> (</code><code class="code"><span class="constructor">C</span></code><code class="code"> : </code><code class="type">V1.CLOCK</code><code class="code">) <span class="keywordsign">-&gt;</span> </code><div class="sig_block"><code class="code"><span class="keyword">functor</span> (</code><code class="code"><span class="constructor">UDP</span></code><code class="code"> : </code><code class="type">V1_LWT.UDP</code><code class="code">) <span class="keywordsign">-&gt;</span> </code><code class="code"><span class="keyword">sig</span></code> <a href="Logs_syslog_mirage.Udp.html">..</a> <code class="code"><span class="keyword">end</span></code></div></div></pre><div class="info module top">
 UDP syslog<br>
 </div>
 <table border="0" cellpadding="3" width="100%">
@@ -34,7 +34,7 @@ UDP syslog<br>
 <td align="center" valign="top" width="15%">
 <code>C</code></td>
 <td align="center" valign="top">:</td>
-<td><code class="type">V1.PCLOCK</code>
+<td><code class="type">V1.CLOCK</code>
 <tr>
 <td align="center" valign="top" width="15%">
 <code>UDP</code></td>
@@ -46,7 +46,7 @@ UDP syslog<br>
 </table>
 <hr width="100%">
 
-<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">C.t -><br>       UDP.t -> hostname:string -> UDP.ipaddr -> ?port:int -> unit -> Logs.reporter</code></pre><div class="info ">
+<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">UDP.t -> hostname:string -> UDP.ipaddr -> ?port:int -> unit -> Logs.reporter</code></pre><div class="info ">
 <code class="code">create clock udp ~hostname ip ~port ()</code> is <code class="code">reporter</code>, which sends log
       messages to <code class="code">ip, port</code> via UDP.  The <code class="code">hostname</code> is part of each syslog
       message.  The <code class="code">port</code> defaults to 514.<br>

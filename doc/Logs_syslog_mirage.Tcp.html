@@ -22,7 +22,7 @@
 &nbsp;</div>
 <h1>Functor <a href="type_Logs_syslog_mirage.Tcp.html">Logs_syslog_mirage.Tcp</a></h1>
 
-<pre><span class="keyword">module</span> Tcp: <div class="sig_block"><code class="code"><span class="keyword">functor</span> (</code><code class="code"><span class="constructor">C</span></code><code class="code"> : </code><code class="type">V1.PCLOCK</code><code class="code">) <span class="keywordsign">-&gt;</span> </code><div class="sig_block"><code class="code"><span class="keyword">functor</span> (</code><code class="code"><span class="constructor">TCP</span></code><code class="code"> : </code><code class="type">V1_LWT.TCP</code><code class="code">) <span class="keywordsign">-&gt;</span> </code><code class="code"><span class="keyword">sig</span></code> <a href="Logs_syslog_mirage.Tcp.html">..</a> <code class="code"><span class="keyword">end</span></code></div></div></pre><div class="info module top">
+<pre><span class="keyword">module</span> Tcp: <div class="sig_block"><code class="code"><span class="keyword">functor</span> (</code><code class="code"><span class="constructor">C</span></code><code class="code"> : </code><code class="type">V1.CLOCK</code><code class="code">) <span class="keywordsign">-&gt;</span> </code><div class="sig_block"><code class="code"><span class="keyword">functor</span> (</code><code class="code"><span class="constructor">TCP</span></code><code class="code"> : </code><code class="type">V1_LWT.TCP</code><code class="code">) <span class="keywordsign">-&gt;</span> </code><code class="code"><span class="keyword">sig</span></code> <a href="Logs_syslog_mirage.Tcp.html">..</a> <code class="code"><span class="keyword">end</span></code></div></div></pre><div class="info module top">
 TCP syslog<br>
 </div>
 <table border="0" cellpadding="3" width="100%">
@@ -34,7 +34,7 @@ TCP syslog<br>
 <td align="center" valign="top" width="15%">
 <code>C</code></td>
 <td align="center" valign="top">:</td>
-<td><code class="type">V1.PCLOCK</code>
+<td><code class="type">V1.CLOCK</code>
 <tr>
 <td align="center" valign="top" width="15%">
 <code>TCP</code></td>
@@ -46,7 +46,7 @@ TCP syslog<br>
 </table>
 <hr width="100%">
 
-<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">C.t -><br>       TCP.t -><br>       hostname:string -><br>       TCP.ipaddr -><br>       ?port:int -><br>       ?framing:<a href="Logs_syslog.html#TYPEframing">Logs_syslog.framing</a> -><br>       unit -> (Logs.reporter, string) Result.result TCP.io</code></pre><div class="info ">
+<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">TCP.t -><br>       hostname:string -><br>       TCP.ipaddr -><br>       ?port:int -><br>       ?framing:<a href="Logs_syslog.html#TYPEframing">Logs_syslog.framing</a> -><br>       unit -> (Logs.reporter, string) Result.result TCP.io</code></pre><div class="info ">
 <code class="code">create clock tcp ~hostname ip ~port ()</code> is <code class="code"><span class="constructor">Ok</span> reporter</code> or <code class="code"><span class="constructor">Error</span> msg</code>.
       The <code class="code">reporter</code> sends log messages to <code class="code">ip, port</code> via TCP.  If the initial
       TCP connection to the <code class="code">remote_ip</code> fails, an <code class="code"><span class="constructor">Error</span> msg</code> is returned
