@@ -47,7 +47,7 @@ UDP syslog<br>
 <hr width="100%">
 
 <pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">UDP.t -> hostname:string -> UDP.ipaddr -> ?port:int -> unit -> Logs.reporter</code></pre><div class="info ">
-<code class="code">create clock udp ~hostname ip ~port ()</code> is <code class="code">reporter</code>, which sends log
+<code class="code">create udp ~hostname ip ~port ()</code> is <code class="code">reporter</code>, which sends log
       messages to <code class="code">ip, port</code> via UDP.  The <code class="code">hostname</code> is part of each syslog
       message.  The <code class="code">port</code> defaults to 514.<br>
 </div>

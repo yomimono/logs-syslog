@@ -21,18 +21,18 @@
 <tr><td align="left"><br>C</td></tr>
 <tr><td><a href="Logs_syslog_mirage_tls.Tls.html#VALcreate">create</a> [<a href="Logs_syslog_mirage_tls.Tls.html">Logs_syslog_mirage_tls.Tls</a>]</td>
 <td><div class="info">
-<code class="code">create clock tcp kv ~keyname ~hostname ip ~port ~framing ()</code> is <code class="code"><span class="constructor">Ok</span>
+<code class="code">create tcp kv ~keyname ~hostname ip ~port ~framing ()</code> is <code class="code"><span class="constructor">Ok</span>
       reporter</code> or <code class="code"><span class="constructor">Error</span> msg</code>.
 </div>
 </td></tr>
 <tr><td><a href="Logs_syslog_mirage.Tcp.html#VALcreate">create</a> [<a href="Logs_syslog_mirage.Tcp.html">Logs_syslog_mirage.Tcp</a>]</td>
 <td><div class="info">
-<code class="code">create clock tcp ~hostname ip ~port ()</code> is <code class="code"><span class="constructor">Ok</span> reporter</code> or <code class="code"><span class="constructor">Error</span> msg</code>.
+<code class="code">create tcp ~hostname ip ~port ()</code> is <code class="code"><span class="constructor">Ok</span> reporter</code> or <code class="code"><span class="constructor">Error</span> msg</code>.
 </div>
 </td></tr>
 <tr><td><a href="Logs_syslog_mirage.Udp.html#VALcreate">create</a> [<a href="Logs_syslog_mirage.Udp.html">Logs_syslog_mirage.Udp</a>]</td>
 <td><div class="info">
-<code class="code">create clock udp ~hostname ip ~port ()</code> is <code class="code">reporter</code>, which sends log
+<code class="code">create udp ~hostname ip ~port ()</code> is <code class="code">reporter</code>, which sends log
       messages to <code class="code">ip, port</code> via UDP.
 </div>
 </td></tr>

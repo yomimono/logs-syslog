@@ -50,7 +50,7 @@ TLS reporter<br>
 <hr width="100%">
 
 <pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">TCP.t -><br>       KV.t -><br>       ?keyname:string -><br>       hostname:string -><br>       TCP.ipaddr -><br>       ?port:int -><br>       ?framing:<a href="Logs_syslog.html#TYPEframing">Logs_syslog.framing</a> -><br>       unit -> (Logs.reporter, string) Result.result TCP.io</code></pre><div class="info ">
-<code class="code">create clock tcp kv ~keyname ~hostname ip ~port ~framing ()</code> is <code class="code"><span class="constructor">Ok</span>
+<code class="code">create tcp kv ~keyname ~hostname ip ~port ~framing ()</code> is <code class="code"><span class="constructor">Ok</span>
       reporter</code> or <code class="code"><span class="constructor">Error</span> msg</code>.  Key material (ca-roots.crt, certificate chain,
       private key) are read from <code class="code">kv</code> (using <code class="code">keyname</code>, defaults to <code class="code">server</code>).
       The <code class="code">reporter</code> sends log messages to <code class="code">ip, port</code> via TLS.  If the initial
