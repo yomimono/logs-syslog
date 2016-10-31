@@ -49,12 +49,14 @@ TLS reporter<br>
 </table>
 <hr width="100%">
 
-<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">TCP.t -><br>       KV.t -><br>       hostname:string -><br>       TCP.ipaddr -><br>       ?port:int -><br>       ?framing:<a href="Logs_syslog.html#TYPEframing">Logs_syslog.framing</a> -><br>       unit -> (Logs.reporter, string) Result.result TCP.io</code></pre><div class="info ">
-<code class="code">create clock tcp kv ~hostname ip ~port ~framing ()</code> is <code class="code"><span class="constructor">Ok</span> reporter</code> or <code class="code"><span class="constructor">Error</span>
-      msg</code>.  The <code class="code">reporter</code> sends log messages to <code class="code">ip, port</code> via TLS.  If the
-      initial TLS connection to the <code class="code">remote_ip</code> fails, an <code class="code"><span class="constructor">Error</span> msg</code> is
-      returned instead.  If the TLS connection fails, attempts are made to
-      re-establish the TLS connection.  The <code class="code">hostname</code> is part of each syslog
-      message.  The <code class="code">port</code> defaults to 6514, <code class="code">framing</code> to prepend the length in decimal.<br>
+<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">TCP.t -><br>       KV.t -><br>       ?keyname:string -><br>       hostname:string -><br>       TCP.ipaddr -><br>       ?port:int -><br>       ?framing:<a href="Logs_syslog.html#TYPEframing">Logs_syslog.framing</a> -><br>       unit -> (Logs.reporter, string) Result.result TCP.io</code></pre><div class="info ">
+<code class="code">create clock tcp kv ~keyname ~hostname ip ~port ~framing ()</code> is <code class="code"><span class="constructor">Ok</span>
+      reporter</code> or <code class="code"><span class="constructor">Error</span> msg</code>.  Key material (ca-roots.crt, certificate chain,
+      private key) are read from <code class="code">kv</code> (using <code class="code">keyname</code>, defaults to <code class="code">server</code>).
+      The <code class="code">reporter</code> sends log messages to <code class="code">ip, port</code> via TLS.  If the initial
+      TLS connection to the <code class="code">remote_ip</code> fails, an <code class="code"><span class="constructor">Error</span> msg</code> is returned
+      instead.  If the TLS connection fails, attempts are made to re-establish
+      the TLS connection.  The <code class="code">hostname</code> is part of each syslog message.  The
+      <code class="code">port</code> defaults to 6514, <code class="code">framing</code> to appending a 0 byte.<br>
 </div>
 </body></html>

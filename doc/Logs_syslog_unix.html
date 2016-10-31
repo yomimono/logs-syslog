@@ -15,7 +15,8 @@
 <link title="Logs_syslog_lwt" rel="Chapter" href="Logs_syslog_lwt.html">
 <link title="Logs_syslog_lwt_tls" rel="Chapter" href="Logs_syslog_lwt_tls.html">
 <link title="Logs_syslog_mirage" rel="Chapter" href="Logs_syslog_mirage.html">
-<link title="Logs_syslog_mirage_tls" rel="Chapter" href="Logs_syslog_mirage_tls.html"><title>Logs_syslog_unix</title>
+<link title="Logs_syslog_mirage_tls" rel="Chapter" href="Logs_syslog_mirage_tls.html"><link title="Example usage" rel="Section" href="#unix_example">
+<title>Logs_syslog_unix</title>
 </head>
 <body>
 <div class="navbar"><a class="pre" href="Logs_syslog.html" title="Logs_syslog">Previous</a>
@@ -49,4 +50,22 @@ Logs reporter via syslog using Unix
     byte.  The <code class="code">hostname</code> defaults to <code class="code"><span class="constructor">Unix</span>.gethostname ()</code>, <code class="code">port</code> to 514,
     <code class="code">framing</code> to append a 0 byte.<br>
 </div>
+<br>
+<h1 id="unix_example">Example usage</h1>
+<p>
+
+    To install a Unix syslog reporter. sending via UDP to localhost, use the
+    following snippet:
+<p>
+
+<pre class="codepre"><code class="code"><span class="constructor">Logs</span>.set_reporter&nbsp;(udp_reporter&nbsp;(<span class="constructor">Unix</span>.inet_addr_of_string&nbsp;<span class="string">"127.0.0.1"</span>)&nbsp;())
+</code></pre>
+<p>
+
+    To install a reporter using TCP, use the following snippet:
+<pre class="codepre"><code class="code"><span class="keyword">let</span>&nbsp;()&nbsp;=
+&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;tcp_reporter&nbsp;(<span class="constructor">Unix</span>.inet_addr_of_string&nbsp;<span class="string">"127.0.0.1"</span>)&nbsp;()&nbsp;<span class="keyword">with</span>
+&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Error</span>&nbsp;e&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;print_endline&nbsp;e
+&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Ok</span>&nbsp;r&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Logs</span>.set_reporter&nbsp;r
+</code></pre><br>
 </body></html>

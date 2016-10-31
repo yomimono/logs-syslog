@@ -21,8 +21,8 @@
 <tr><td align="left"><br>C</td></tr>
 <tr><td><a href="Logs_syslog_mirage_tls.Tls.html#VALcreate">create</a> [<a href="Logs_syslog_mirage_tls.Tls.html">Logs_syslog_mirage_tls.Tls</a>]</td>
 <td><div class="info">
-<code class="code">create clock tcp kv ~hostname ip ~port ~framing ()</code> is <code class="code"><span class="constructor">Ok</span> reporter</code> or <code class="code"><span class="constructor">Error</span>
-      msg</code>.
+<code class="code">create clock tcp kv ~keyname ~hostname ip ~port ~framing ()</code> is <code class="code"><span class="constructor">Ok</span>
+      reporter</code> or <code class="code"><span class="constructor">Error</span> msg</code>.
 </div>
 </td></tr>
 <tr><td><a href="Logs_syslog_mirage.Tcp.html#VALcreate">create</a> [<a href="Logs_syslog_mirage.Tcp.html">Logs_syslog_mirage.Tcp</a>]</td>
@@ -51,8 +51,8 @@
 <tr><td align="left"><br>M</td></tr>
 <tr><td><a href="Logs_syslog.html#VALmessage">message</a> [<a href="Logs_syslog.html">Logs_syslog</a>]</td>
 <td><div class="info">
-<code class="code">message ~facility ~host ~source ~tags level now msg</code> is <code class="code">message</code>, a syslog
-    message with the given values.
+<code class="code">message ~facility ~host ~source ~tags ~header level now msg</code> is <code class="code">message</code>,
+    a syslog message with the given values.
 </div>
 </td></tr>
 <tr><td align="left"><br>P</td></tr>
@@ -75,8 +75,8 @@
 </td></tr>
 <tr><td><a href="Logs_syslog_lwt_tls.html#VALtcp_tls_reporter">tcp_tls_reporter</a> [<a href="Logs_syslog_lwt_tls.html">Logs_syslog_lwt_tls</a>]</td>
 <td><div class="info">
-<code class="code">tcp_tls_reporter ~hostname remote_ip ~port ~cacert ~cert ~priv_key ~framing
-    ()</code> is <code class="code"><span class="constructor">Ok</span> reporter</code> or <code class="code"><span class="constructor">Error</span> msg</code>.
+<code class="code">tcp_tls_reporter ~hostname remote_ip ~port ~cacert ~cn ~cert ~priv_key
+    ~framing ()</code> is <code class="code"><span class="constructor">Ok</span> reporter</code> or <code class="code"><span class="constructor">Error</span> msg</code>.
 </div>
 </td></tr>
 <tr><td align="left"><br>U</td></tr>

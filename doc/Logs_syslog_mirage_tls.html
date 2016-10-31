@@ -14,7 +14,8 @@
 <link title="Logs_syslog_lwt" rel="Chapter" href="Logs_syslog_lwt.html">
 <link title="Logs_syslog_lwt_tls" rel="Chapter" href="Logs_syslog_lwt_tls.html">
 <link title="Logs_syslog_mirage" rel="Chapter" href="Logs_syslog_mirage.html">
-<link title="Logs_syslog_mirage_tls" rel="Chapter" href="Logs_syslog_mirage_tls.html"><title>Logs_syslog_mirage_tls</title>
+<link title="Logs_syslog_mirage_tls" rel="Chapter" href="Logs_syslog_mirage_tls.html"><link title="Example usage" rel="Section" href="#mirage_example">
+<title>Logs_syslog_mirage_tls</title>
 </head>
 <body>
 <div class="navbar"><a class="pre" href="Logs_syslog_mirage.html" title="Logs_syslog_mirage">Previous</a>
@@ -33,4 +34,23 @@ Logs reporter via syslog using MirageOS and TLS
 <pre><span class="keyword">module</span> <a href="Logs_syslog_mirage_tls.Tls.html">Tls</a>: <div class="sig_block"><code class="code"><span class="keyword">functor</span> (</code><code class="code"><span class="constructor">C</span></code><code class="code"> : </code><code class="type">V1.CLOCK</code><code class="code">) <span class="keywordsign">-&gt;</span> </code><div class="sig_block"><code class="code"><span class="keyword">functor</span> (</code><code class="code"><span class="constructor">TCP</span></code><code class="code"> : </code><code class="type">V1_LWT.TCP</code><code class="code">) <span class="keywordsign">-&gt;</span> </code><div class="sig_block"><code class="code"><span class="keyword">functor</span> (</code><code class="code"><span class="constructor">KV</span></code><code class="code"> : </code><code class="type">V1_LWT.KV_RO</code><code class="code">) <span class="keywordsign">-&gt;</span> </code><code class="code"><span class="keyword">sig</span></code> <a href="Logs_syslog_mirage_tls.Tls.html">..</a> <code class="code"><span class="keyword">end</span></code></div></div></div></pre><div class="info">
 TLS reporter
 </div>
+<br>
+<h1 id="mirage_example">Example usage</h1>
+<p>
+
+    To install a Mirage syslog reporter, sending via TLS to localhost, use the
+    following snippet:
+<pre class="codepre"><code class="code"><span class="keyword">module</span>&nbsp;<span class="constructor">Main</span>&nbsp;(<span class="constructor">S</span>:<span class="constructor">V1_LWT</span>.<span class="constructor">STACKV4</span>)&nbsp;(<span class="constructor">C</span>:<span class="constructor">V1</span>.<span class="constructor">CLOCK</span>)&nbsp;(<span class="constructor">KEYS</span>:<span class="constructor">V1_LWT</span>.<span class="constructor">KV_RO</span>)
+&nbsp;&nbsp;<span class="keyword">module</span>&nbsp;<span class="constructor">TLS</span>&nbsp;&nbsp;=&nbsp;<span class="constructor">Tls_mirage</span>.<span class="constructor">Make</span>(<span class="constructor">S</span>.<span class="constructor">TCPV4</span>)
+&nbsp;&nbsp;<span class="keyword">module</span>&nbsp;<span class="constructor">X509</span>&nbsp;=&nbsp;<span class="constructor">Tls_mirage</span>.<span class="constructor">X509</span>(<span class="constructor">KEYS</span>)(<span class="constructor">C</span>)
+
+&nbsp;&nbsp;<span class="keyword">module</span>&nbsp;<span class="constructor">LT</span>&nbsp;=&nbsp;<span class="constructor">Logs_syslog_mirage_tls</span>.<span class="constructor">Tls</span>(<span class="constructor">C</span>)(<span class="constructor">S</span>.<span class="constructor">TCPV4</span>)(<span class="constructor">KEYS</span>)
+
+&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;start&nbsp;s&nbsp;_&nbsp;kv&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;ip&nbsp;=&nbsp;<span class="constructor">Ipaddr</span>.<span class="constructor">V4</span>.of_string_exn&nbsp;<span class="string">"127.0.0.1"</span>&nbsp;<span class="keyword">in</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">LT</span>.create&nbsp;(<span class="constructor">S</span>.tcpv4&nbsp;s)&nbsp;kv&nbsp;~hostname&nbsp;ip&nbsp;()&nbsp;&gt;&gt;=&nbsp;<span class="keyword">function</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Ok</span>&nbsp;r&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Logs</span>.set_reporter&nbsp;r&nbsp;;&nbsp;<span class="constructor">Lwt</span>.return_unit
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Error</span>&nbsp;e&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lwt</span>.fail_invalid_arg&nbsp;e
+<span class="keyword">end</span>
+</code></pre><br>
 </body></html>

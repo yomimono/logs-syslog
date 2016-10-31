@@ -15,7 +15,8 @@
 <link title="Logs_syslog_lwt" rel="Chapter" href="Logs_syslog_lwt.html">
 <link title="Logs_syslog_lwt_tls" rel="Chapter" href="Logs_syslog_lwt_tls.html">
 <link title="Logs_syslog_mirage" rel="Chapter" href="Logs_syslog_mirage.html">
-<link title="Logs_syslog_mirage_tls" rel="Chapter" href="Logs_syslog_mirage_tls.html"><title>Logs_syslog_lwt_tls</title>
+<link title="Logs_syslog_mirage_tls" rel="Chapter" href="Logs_syslog_mirage_tls.html"><link title="Example usage" rel="Section" href="#lwt_tls_example">
+<title>Logs_syslog_lwt_tls</title>
 </head>
 <body>
 <div class="navbar"><a class="pre" href="Logs_syslog_lwt.html" title="Logs_syslog_lwt">Previous</a>
@@ -32,18 +33,34 @@ Logs reporter via syslog using Lwt and TLS
 </div>
 <hr width="100%">
 
-<pre><span id="VALtcp_tls_reporter"><span class="keyword">val</span> tcp_tls_reporter</span> : <code class="type">?hostname:string -><br>       Lwt_unix.inet_addr -><br>       ?port:int -><br>       cacert:string -><br>       cert:string -><br>       priv_key:string -><br>       ?framing:<a href="Logs_syslog.html#TYPEframing">Logs_syslog.framing</a> -><br>       unit -> (Logs.reporter, string) Result.result Lwt.t</code></pre><div class="info ">
-<code class="code">tcp_tls_reporter ~hostname remote_ip ~port ~cacert ~cert ~priv_key ~framing
-    ()</code> is <code class="code"><span class="constructor">Ok</span> reporter</code> or <code class="code"><span class="constructor">Error</span> msg</code>.  The <code class="code">reporter</code> sends each log message
-    to <code class="code">remote_ip, port</code> via TLS.  If the initial TLS connection to the
-    <code class="code">remote_ip</code> fails, an <code class="code"><span class="constructor">Error</span> msg</code> is returned instead.  If the TLS
-    connection fails, the log message is reported to standard error, and an
-    attempt is made to re-establish the TLS connection.  Each message is
-    prepended by its length, encoded as decimal integer, as specified in
-    <a href="https://tools.ietf.org/html/rfc5125">RFC 5125</a>.  The <code class="code">remote_ip</code> must have
-    an X.509 certificate rooted in the given <code class="code">cacert</code> (see
-    <a href="https://tools.ietf.org/html/rfc5280">RFC 5280</a>).  The default value for
-    <code class="code">hostname</code> is <code class="code"><span class="constructor">Lwt_unix</span>.gethostname ()</code>, the default value for <code class="code">port</code> is
-    6514, <code class="code">framing</code> defaults to prepending the length in decimal.<br>
+<pre><span id="VALtcp_tls_reporter"><span class="keyword">val</span> tcp_tls_reporter</span> : <code class="type">?hostname:string -><br>       Lwt_unix.inet_addr -><br>       ?port:int -><br>       cacert:string -><br>       cn:string -><br>       cert:string -><br>       priv_key:string -><br>       ?framing:<a href="Logs_syslog.html#TYPEframing">Logs_syslog.framing</a> -><br>       unit -> (Logs.reporter, string) Result.result Lwt.t</code></pre><div class="info ">
+<code class="code">tcp_tls_reporter ~hostname remote_ip ~port ~cacert ~cn ~cert ~priv_key
+    ~framing ()</code> is <code class="code"><span class="constructor">Ok</span> reporter</code> or <code class="code"><span class="constructor">Error</span> msg</code>.  The TLS connection validates
+    that <code class="code">cn</code> is the common name of the certificate of the log server, it must
+    be signed by <code class="code">cacert</code>.  The reporters credentials are its public <code class="code">cert</code>, and
+    its <code class="code">priv_key</code>.  The <code class="code">reporter</code> sends each log message to <code class="code">remote_ip, port</code>
+    via TLS.  If the initial TLS connection to the <code class="code">remote_ip</code> fails, an <code class="code"><span class="constructor">Error</span>
+    msg</code> is returned instead.  If the TLS connection fails, the log message is
+    reported to standard error, and an attempt is made to re-establish the TLS
+    connection.  Each message is prepended by its length, encoded as decimal
+    integer, as specified in <a href="https://tools.ietf.org/html/rfc5125">RFC 5125</a>.
+    The default value for <code class="code">hostname</code> is <code class="code"><span class="constructor">Lwt_unix</span>.gethostname ()</code>, the default
+    value for <code class="code">port</code> is 6514, <code class="code">framing</code> appends a 0 byte by default.<br>
 </div>
+<br>
+<h1 id="lwt_tls_example">Example usage</h1>
+<p>
+
+    To install a Lwt syslog reporter, sending via TLS to localhost, use the
+    following snippet (assuming you already have certificates, and the common
+    name of the collector is "log server"):
+<pre class="codepre"><code class="code"><span class="keyword">let</span>&nbsp;install_logger&nbsp;()&nbsp;=
+&nbsp;&nbsp;tls_reporter&nbsp;(<span class="constructor">Unix</span>.inet_addr_of_string&nbsp;<span class="string">"127.0.0.1"</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;~cacert:<span class="string">"ca.pem"</span>&nbsp;~cn:<span class="string">"log&nbsp;server"</span>&nbsp;~cert:<span class="string">"log.pem"</span>&nbsp;~priv_key:<span class="string">"log.key"</span>
+&nbsp;&nbsp;&nbsp;&nbsp;()&nbsp;&gt;|=&nbsp;<span class="keyword">function</span>
+&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Ok</span>&nbsp;r&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Logs</span>.set_reporter&nbsp;r
+&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Error</span>&nbsp;e&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;print_endline&nbsp;e
+
+<span class="keyword">let</span>&nbsp;_&nbsp;=&nbsp;<span class="constructor">Lwt_main</span>.run&nbsp;(install_logger&nbsp;())
+</code></pre><br>
 </body></html>
