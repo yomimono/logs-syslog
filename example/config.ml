@@ -1,10 +1,13 @@
 open Mirage
 
-let libraries = ["duration"; "logs-syslog.mirage"; "logs.lwt"]
-and packages = ["duration"; "logs-syslog"; "logs"]
+let packages = [
+  package "duration";
+  package ~sublibs:["mirage"] "logs-syslog";
+  package ~sublibs:["lwt"] "logs"
+]
 
 let handler =
-  foreign ~libraries ~packages "Unikernel.Main"
+  foreign ~packages "Unikernel.Main"
     (console @-> pclock @-> time @-> stackv4 @-> job)
 
 let stack = generic_stackv4 tap0
